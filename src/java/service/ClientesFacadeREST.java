@@ -11,6 +11,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -19,6 +20,9 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import modelo.Clientes;
+import static modelo.Clientes_.apellidos;
+import static modelo.Clientes_.nombres;
+import static modelo.Mantenimientos_.cliente;
 
 /**
  *
@@ -68,6 +72,23 @@ public class ClientesFacadeREST extends AbstractFacade<Clientes> {
     public List<Clientes> findAll() {
         return super.findAll();
     }
+    @POST
+    @Path("CREAR")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+     public String crear (@FormParam ("idCliente") String idCliente, @FormParam ("nombre") String nombre, @FormParam ("apellido") String apellido, @FormParam ("cedula") String cedula, @FormParam ("direccion") String direccion, @FormParam ("edad") String edad, @FormParam ("provincia") String provincia, @FormParam ("vehiculoCompro") String vehiculoCompro){
+      Clientes cs = super.find(idCliente);
+      cs.setnombres(nombres);
+      cs.setapellidos(apellidos);
+      cs.setcedula(cedula);
+      cs.setdireccion(direccion);
+      cs.setedad(edad);
+      cs.setprovincia(provincia);
+     
+      
+      super.edit(cs);
+      return "Actualizado";
+     }
+    
 
     @GET
     @Path("{from}/{to}")
